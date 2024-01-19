@@ -1,0 +1,16 @@
+mat-card {
+    justify-content: center;
+    /* display: flex; */
+    width: 50%;
+    align-items: center;
+    margin: auto;}
+/* form {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+} */
+
+mat-form-field {
+    width: 100%;
+    display: block;
+}
