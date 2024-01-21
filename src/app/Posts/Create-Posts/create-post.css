@@ -11,10 +11,15 @@ mat-card {
     align-items: center;
 } */
 
-mat-form-field {
+/* mat-form-field {
     width: 100%;
-    display: block;
-}
+    display: block;   
+     justify-content: center;
+    display: flex;
+    width: 50%;
+    align-items: center;
+    margin: auto;
+} */
 button{
     align-items: center;
     margin: auto;
