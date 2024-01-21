@@ -1,2 +1,2 @@
-<CreatePostComponent ngSkipHydration></CreatePostComponent> 
-<postListComponent></postListComponent> 
+<CreatePostComponent ngSkipHydration (PostCreated)="onAddPost($event)"></CreatePostComponent> 
+<postListComponent (posts)="StoredPosts"></postListComponent> 

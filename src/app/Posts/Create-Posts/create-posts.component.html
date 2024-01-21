@@ -19,14 +19,14 @@
     <form action="">
         <mat-card-content>   
             <mat-form-field >
-           <input  matInput type="text">
+           <input  matInput type="text" [(ngModel)]="PostTitle" name="Title">
        </mat-form-field> <br>
        <mat-form-field style="width: 100vh;">
-        <textarea  matInput rows="6" [(ngModel)]="enteredValue" name="content"> </textarea> 
+        <textarea  matInput rows="6" [(ngModel)]="PostContent" name="content"> </textarea> 
     </mat-form-field>
     <br>
-    <button mat-button color="accent" (click)="PostCreate()" >Click ME</button>
-    <p>{{post}}</p> 
+    <button mat-button color="accent"  >Click ME</button>
+    <!-- <p>{{post}}</p>  -->
    </mat-card-content>
     </form>
 
