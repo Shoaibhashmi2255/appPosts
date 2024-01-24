@@ -12,7 +12,7 @@ import { MatCardModule } from "@angular/material/card";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { AppComponent } from './app.component';
-import { PostService } from './Posts/post.service';
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -32,11 +32,11 @@ import { PostService } from './Posts/post.service';
     MatCardModule,
     MatButtonModule,
     MatExpansionModule,
-    MatToolbarModule
+    MatToolbarModule,
+    HttpClientModule
 
   ],
   providers: [
-    PostService,
     provideClientHydration()
   ],
   bootstrap: [AppComponent]
