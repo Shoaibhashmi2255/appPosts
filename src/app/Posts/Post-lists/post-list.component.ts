@@ -7,7 +7,6 @@ import { Subscription } from "rxjs";
     templateUrl : 'post-list.component.html',
     styleUrls : ['post-list-component.css']
 })
-
 export class PostList implements OnInit, OnDestroy{
   posts:Post[] =[];
   private postsSub : Subscription = new Subscription;
@@ -18,9 +17,7 @@ export class PostList implements OnInit, OnDestroy{
       this.posts = posts;
     });
   }
-
   ngOnDestroy(): void {
     this.postsSub.unsubscribe();
   }
-
 }

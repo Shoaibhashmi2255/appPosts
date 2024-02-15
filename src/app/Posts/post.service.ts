@@ -24,13 +24,18 @@ export class PostService {
       }
 
     getUpdatePostListener(){
-        return this.postUpdated.asObservable();
+      return this.postUpdated.asObservable();
     }
 
     addPost(Title:string,Content:string){
     const post:Post = {id:null , Title:Title, Content:Content};
-    this.posts.push(post);
+    this.http.post<{message : string}>('http://localhost:3000/api/posts', post)
+    .subscribe(responseDta =>{
+        console.log(responseDta.message);
+        this.posts.push(post);
     this.postUpdated.next([...this.posts]);
+    });
+    
     }
     
 }
