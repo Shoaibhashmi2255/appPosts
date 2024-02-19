@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
-
 @Component ({
     selector : 'HeaderComponent',
-    templateUrl : 'header.html'
+    templateUrl : 'header.html',
+    styleUrls : ['header.component.css']
 
 })
 

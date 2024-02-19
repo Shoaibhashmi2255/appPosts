@@ -13,6 +13,7 @@ import { MatExpansionModule } from "@angular/material/expansion";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { AppComponent } from './app.component';
 import { HttpClientModule } from "@angular/common/http";
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -20,11 +21,10 @@ import { HttpClientModule } from "@angular/common/http";
     CreatePostComponent,
     PostList,
     headerComponent
-
-  ], 
-  
+  ],   
   imports: [
     BrowserModule,
+    AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
@@ -37,7 +37,6 @@ import { HttpClientModule } from "@angular/common/http";
 
   ],
   providers: [
-    provideClientHydration()
   ],
   bootstrap: [AppComponent]
 })

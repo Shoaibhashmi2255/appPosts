@@ -18,11 +18,7 @@ export class CreatePostComponent {
     PostCreate(form:NgForm){
         if(form.invalid){
             return;
-        }
-        // console.log('Entered Value:', this.enteredValue);
-    // console.log('Post:', this.post);
-        // this.post = this.enteredValue;
-        // alert('Hit by me Mommy')
+        }        
     this.postService.addPost(form.value.Title, form.value.Content);
     }
     constructor (public postService:PostService){}

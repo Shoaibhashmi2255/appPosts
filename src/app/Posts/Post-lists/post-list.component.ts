@@ -8,14 +8,20 @@ import { Subscription } from "rxjs";
     styleUrls : ['post-list-component.css']
 })
 export class PostList implements OnInit, OnDestroy{
-  posts:Post[] =[];
+  posts:any = [];
   private postsSub : Subscription = new Subscription;
   constructor (public postService:PostService){}
   ngOnInit() {
     this.postService.getPost();
-    this.postsSub = this.postService.getUpdatePostListener().subscribe((posts:Post[]) => {
-      this.posts = posts;
+    this.postsSub = this.postService.getUpdatePostListener().subscribe((posts:any) => {
+      console.log(posts);
+      posts.forEach((element:any) => {
+        this.posts.push(element);
+      });
+      // this.posts = posts;
     });
+    // console.log(this.posts);
+
   };
   onDelete(PostId:any) {
     this.postService.deletePost(PostId);

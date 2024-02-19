@@ -42,11 +42,14 @@ app.post("/api/posts",(req, res, next)=>{
         Title : req.body.Title,
         Content : req.body.Content
     });
-    console.log(post);
-    post.save();
-    res.status(201).json({
-        message:"Post added successfully"
-    })
+    // console.log(post);
+    post.save().then(createdPosts => {
+        res.status(201).json({
+            message:"Post added successfully",
+            PostId: createdPosts._id,
+        });
+        });
+
     // FXcEtwqodL5aQhio : pasword
     // devshoaib56
 })
@@ -57,13 +60,16 @@ app.get("/api/posts",(req,res,next) => {
                 message:'Post fetched successfully!',
                 posts:document
             });
-        });        
+        });            
+}); 
+app.delete("/api/posts/:_id", async(req,res,next) => {
+    console.log(req.params._id);
+    await Post.deleteOne ({_id: req.params._id}).then(createdPosts =>{
+        if(createdPosts.deletedCount > 0){
+            res.status(200).json({message:'Post deleted!!'});
+        }else{
+            res.status(500).json({message:'Post Not deleted!!'});
+        }
+    });
 });
-app.delete("/api/posts/:id", (res,req,next) => {
-    Post.delete.one ({_id: req.params.id}).then(result =>{
-        console.log(result);
-        res.status(200).json({message:'Post deleted!!'});
-    })
-});
-
 module.exports = app;
