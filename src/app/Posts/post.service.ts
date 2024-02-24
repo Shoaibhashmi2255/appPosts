@@ -40,6 +40,10 @@ export class PostService implements OnInit {
       return this.postUpdated.asObservable();
     };
 
+    getPosts (id : string) {
+      return {...this.posts.find( p => p._id === id)};
+    }
+
     addPost(Title:string,Content:string){
     const post:Post = {_id:null , Title:Title, Content:Content};
     this.http.post<{message : string, PostId : string}>('http://localhost:3000/api/posts', post)
