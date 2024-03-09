@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from "@angular/forms";
-import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import { ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from '@angular/platform-browser';
 import { CreatePostComponent } from "./Posts/Create-Posts/create-posts.component";
 import { PostList } from "./Posts/Post-lists/post-list.component";
 import { headerComponent } from "./Header/header.component";
@@ -14,6 +14,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { AppComponent } from './app.component';
 import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
 
 @NgModule({
   declarations: [
@@ -25,7 +26,7 @@ import { AppRoutingModule } from './app-routing.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule, 
@@ -33,6 +34,7 @@ import { AppRoutingModule } from './app-routing.module';
     MatButtonModule,
     MatExpansionModule,
     MatToolbarModule,
+    MatProgressSpinnerModule,
     HttpClientModule
 
   ],

@@ -1,9 +1,15 @@
 mat-card {
     justify-content: center;
-    /* display: flex; */
     width: 50%;
     align-items: center;
     margin: auto;
+    margin-top: 2%;
+}
+mat-spinner{
+    margin: auto;
+}
+input[type = "file"]{
+    visibility: hidden;
 }
 /* form {
     justify-content: center;

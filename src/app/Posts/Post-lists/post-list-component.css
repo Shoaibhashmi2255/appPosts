@@ -4,3 +4,6 @@ mat-expansion-panel {
     margin-top: 2%;
 
 } 
+mat-spinner{
+    margin: auto;
+}
