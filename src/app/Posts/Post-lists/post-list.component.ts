@@ -2,11 +2,13 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Post } from "../app-model";
 import { PostService } from "../post.service";
 import { Subscription } from "rxjs";
+
 @Component ({
     selector : 'postListComponent',
     templateUrl : 'post-list.component.html',
     styleUrls : ['post-list-component.css']
 })
+
 export class PostList implements OnInit, OnDestroy{
   posts:any = [];
   isLoading = false;

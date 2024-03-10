@@ -28,7 +28,7 @@ export class CreatePostComponent implements OnInit{
         this.form = new FormGroup({
             Title : new FormControl(null, {validators : [Validators.required , Validators.minLength(3)]}),
             Content : new FormControl (null, {validators: [Validators.required]}),
-            // image : new FormControl(null , {validators : [Validators.required]})
+            image : new FormControl(null , {validators : [Validators.required]})
         })
         this.route.paramMap.subscribe((paramMap:ParamMap) => {
             if (paramMap.has('postId')) {
@@ -36,12 +36,9 @@ export class CreatePostComponent implements OnInit{
                 this.postId = paramMap.get('postId');
                 this.isLoading = true;
                 this.postService.getPosts(this.postId).subscribe(postData => {
-                    console.log(postData);
                     this.isLoading = false;
                     this.post = {id : postData._id, title : postData.Title, content : postData.Content};
-                    console.log(this.post);
                     this.form.setValue({Title : this.post.title , Content : this.post.content});
-                    console.log(this.post);
                 });
                 
             }else{
@@ -53,13 +50,14 @@ export class CreatePostComponent implements OnInit{
 
 
     onImagePicked(event:Event){
-        // const file = (event.target as HTMLInputElement).files;
-        // this.form.patchValue({image : file});
-        // this.form.get('image').updateValueAndValidity();
-        // console.log(file);
-        // console.log(this.form);
+        const File = (event.target as HTMLInputElement)files[0];
+        this.form.patchValue({image: File});
+        this.form.get('image').updateValueAndValidity();
+        console.log(File);
+        console.log(this.form);
+        
+        
     }
-
     onSavePost(){
         if(this.form.invalid){
             return;
@@ -71,7 +69,6 @@ export class CreatePostComponent implements OnInit{
             this.postService.upDatepost(this.postId,this.form.value.Title, this.form.value.Content)
         }this.isLoading = false;
         this.form.reset();
-
     }
 }
 
