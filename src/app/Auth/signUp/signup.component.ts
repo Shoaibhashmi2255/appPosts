@@ -8,8 +8,6 @@ import { Authservice } from "../auth.service";
 
 export class SignUpComponent {
     isLoading = false;
-
-
     constructor (public authService : Authservice){}
 
     onSignup(form : NgForm){
