@@ -1,9 +1,11 @@
+const path = require ("path");
 const express = require ('express');
 const bodyParse = require ('body-parser');
 const mongose = require ('mongoose');
 const app = express();
 const postsRoutes = require ('./routes/posts');
 const cors = require('cors');
+const userRoutes = require ('./routes/user');
 app.use(cors());
 
 // j8PglZRekaLmzvgJ 
@@ -14,6 +16,8 @@ mongose.connect("mongodb+srv://shoaibzafar2255:j8PglZRekaLmzvgJ@cluster0.idojyvv
 .catch((es) => { 
     console.log('Connection Failed',es);
 });
+
+app.use("/images" , express.static(path.join("BackEnd/images")));
 
 const { connect } = require('http2');
 
@@ -39,4 +43,6 @@ app.use((req, res, next) => {
   });
 
   app.use("/api/posts" , postsRoutes);
+  app.use("/api/user" , userRoutes);
+
 module.exports = app;

@@ -1,18 +1,50 @@
 const express = require ('express');
 const Routers = express.Router();
 const Post = require ('../Models/post');
+const multer = require ('multer');
+const { count } = require('console');
 
+const MIME_TYPE_MAP = {
+    'image/png' : 'png',
+    'image/jpeg' : 'jpg',
+    'image/jpg' : 'jpg'
+}
 
-Routers.post("",(req, res, next)=>{
+const storage = multer.diskStorage({
+    destination : (req, file , cb) =>{
+        const isValid = MIME_TYPE_MAP[file.mimetype];
+        let error = new Error('Invalid mime type');
+        if (isValid) {
+            error = null;
+        }
+        cb(error, "BackEnd/images")
+    },
+    filename : (req, file, cb) =>{
+        const name = file.originalname.toLowerCase().split(' ').join('-');
+        const extension = MIME_TYPE_MAP[file.mimetype];
+        cb(null, name + '-' + Date.now() + '.' +extension);
+    }
+})
+
+Routers.post("", multer({storage:storage}).single("image") ,(req, res, next)=>{
+    const url = req.protocol + "://" + req.get("host");
     const post = new Post({
         Title : req.body.Title,
-        Content : req.body.Content
+        Content : req.body.Content,
+        imagePath : url + "/images/" + req.file.filename
     });
     // console.log(post);
     post.save().then(createdPosts => {
         res.status(201).json({
             message:"Post added successfully",
-            PostId: createdPosts._id,
+            Post : {
+                ...createdPosts,
+                id : createdPosts._id,
+                // ...createdPosts is actually the title content and images, this get the value of all the peoperties
+                // Title : createdPosts.Title,
+                // Content : createdPosts.Content,
+                // imagePath : createdPosts.imagePath
+            }
         });
         });
 
@@ -20,12 +52,19 @@ Routers.post("",(req, res, next)=>{
     // devshoaib56
 })
 
-Routers.put("/:_id", (req,res,next)=>{
+Routers.put("/:_id", multer({storage:storage}).single("image") , (req,res,next)=>{
+    let imagePath = req.body.imagePath;
+    if (req.file) {
+        const url = req.protocol + "://" + req.get("host");
+        imagePath = url + "/images/" + req.file.filename
+    }
     const post = new Post ({
         _id : req.body._id,
         Title :req.body.Title,
-        Content:req.body.Content
+        Content:req.body.Content,
+        imagePath : imagePath
     })
+    console.log(post);
    Post.updateOne({_id: req.params._id}, post).then(result=>{
     console.log(result);
     res.status(200).json({message: 'Update Successful!'});
@@ -33,10 +72,22 @@ Routers.put("/:_id", (req,res,next)=>{
 });
 
 Routers.get("",(req,res,next) => {
-        Post.find().then(document => {
+    const pageSize = +req.query.pagesize;
+    const currentPage = +req.query.page;
+    const pageQuery = Post.find();
+    let fetchedPosts;
+    if (pageSize && currentPage) {
+        pageQuery.skip(pageSize * (currentPage - 1)).limit(pageSize );
+    }
+        pageQuery.then(document => {
+            fetchedPosts = document;
+            return Post.countDocuments();
+        })
+        .then(count => {
             res.status(200).json({
                 message:'Post fetched successfully!',
-                posts:document
+                posts:fetchedPosts,
+                maxPosts : count
             });
         });            
 }); 

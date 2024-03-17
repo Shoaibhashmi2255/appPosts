@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from "@angular/forms";
+import { ReactiveFormsModule , FormsModule } from "@angular/forms";
 import { BrowserModule } from '@angular/platform-browser';
 import { CreatePostComponent } from "./Posts/Create-Posts/create-posts.component";
 import { PostList } from "./Posts/Post-lists/post-list.component";
@@ -14,28 +14,41 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { AppComponent } from './app.component';
 import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { LoginComponent } from './Auth/logIn/login.component';
+import { CommonModule } from '@angular/common';
+import { SignUpComponent } from './Auth/signUp/signup.component';
+
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     CreatePostComponent,
     PostList,
-    headerComponent
+    headerComponent,
+    LoginComponent,
+    SignUpComponent
   ],   
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule, 
     MatCardModule,
     MatButtonModule,
+    CommonModule,
     MatExpansionModule,
     MatToolbarModule,
     MatProgressSpinnerModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    
 
   ],
   providers: [

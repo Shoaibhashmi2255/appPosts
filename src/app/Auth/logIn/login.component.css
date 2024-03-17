@@ -1,0 +1,31 @@
+/* mat-card {
+    width: 100%;
+} */
+mat-spinner{
+    margin: auto;
+}
+.container {
+    width: 100;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    /* height: 100vh; */
+     /* Adjust as needed */
+  }
+  
+  /* Add margin to the form */
+  form {
+    margin: auto;
+    width: 80%;
+    max-width: 400px;
+  }
+  mat-form-field {
+  width: 100%; /* Make the form fields fill the available width */
+}
+  
+  /* Adjust margin for small screens */
+  @media screen and (max-width: 600px) {
+    form {
+      margin: 10px;
+    }
+  }
