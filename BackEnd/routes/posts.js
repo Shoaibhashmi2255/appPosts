@@ -3,6 +3,7 @@ const Routers = express.Router();
 const Post = require ('../Models/post');
 const multer = require ('multer');
 const { count } = require('console');
+const checkAuth = require('../middleware/check-auth');
 
 const MIME_TYPE_MAP = {
     'image/png' : 'png',
@@ -26,12 +27,13 @@ const storage = multer.diskStorage({
     }
 })
 
-Routers.post("", multer({storage:storage}).single("image") ,(req, res, next)=>{
+Routers.post("",checkAuth, multer({storage:storage}).single("image") ,(req, res, next)=>{
     const url = req.protocol + "://" + req.get("host");
     const post = new Post({
         Title : req.body.Title,
         Content : req.body.Content,
-        imagePath : url + "/images/" + req.file.filename
+        imagePath : url + "/images/" + req.file.filename,
+        creator : req.userData.userId
     });
     // console.log(post);
     post.save().then(createdPosts => {
@@ -52,7 +54,7 @@ Routers.post("", multer({storage:storage}).single("image") ,(req, res, next)=>{
     // devshoaib56
 })
 
-Routers.put("/:_id", multer({storage:storage}).single("image") , (req,res,next)=>{
+Routers.put("/:_id",checkAuth, multer({storage:storage}).single("image") , (req,res,next)=>{
     let imagePath = req.body.imagePath;
     if (req.file) {
         const url = req.protocol + "://" + req.get("host");
@@ -64,8 +66,7 @@ Routers.put("/:_id", multer({storage:storage}).single("image") , (req,res,next)=
         Content:req.body.Content,
         imagePath : imagePath
     })
-    console.log(post);
-   Post.updateOne({_id: req.params._id}, post).then(result=>{
+   Post.updateOne({_id: req.params._id, creator : req.userData.userId}, post).then(result=>{
     console.log(result);
     res.status(200).json({message: 'Update Successful!'});
    }); 
@@ -101,7 +102,7 @@ Routers.get("/:_id", (req,res,next) =>{
         }
     })
 })
-Routers.delete("/:_id", async(req,res,next) => {
+Routers.delete("/:_id",checkAuth, async(req,res,next) => {
     console.log(req.params._id);
     await Post.deleteOne ({_id: req.params._id}).then(createdPosts =>{
         if(createdPosts.deletedCount > 0){

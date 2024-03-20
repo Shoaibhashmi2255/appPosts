@@ -26,12 +26,14 @@ export class PostService implements OnInit {
               Title : Post.Title,
               Content : Post.Content,
               _id : Post._id,
-              imagePath : Post.imagePath
+              imagePath : Post.imagePath,
+              creator : Post.creator
             };
           }), maxPosts : postsData.maxPosts};
         }))
           .subscribe({
             next: (transformedPostData) => {
+              console.log(transformedPostData);
               this.posts = transformedPostData.posts;
               this.postUpdated.next({posts : [...this.posts], postCount : transformedPostData.maxPosts});
             },
@@ -57,6 +59,8 @@ export class PostService implements OnInit {
     PostData.append('image' , image , Title);
     this.http.post<{message : string, post : Post}>('http://localhost:3000/api/posts', PostData)
     .subscribe(responseDta =>{
+     
+      
       
     //   const post : Post = {_id : responseDta.post._id, Title:Title , Content:Content, imagePath: responseDta.post.imagePath}
     //   console.log(post._id);

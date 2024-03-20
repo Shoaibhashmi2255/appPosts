@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule , FormsModule } from "@angular/forms";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { BrowserModule } from '@angular/platform-browser';
 import { CreatePostComponent } from "./Posts/Create-Posts/create-posts.component";
 import { PostList } from "./Posts/Post-lists/post-list.component";
@@ -12,13 +12,14 @@ import { MatCardModule } from "@angular/material/card";
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { AppComponent } from './app.component';
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { LoginComponent } from './Auth/logIn/login.component';
 import { CommonModule } from '@angular/common';
 import { SignUpComponent } from './Auth/signUp/signup.component';
+import { AuthInterceptor } from './Auth/auth-interceptor';
 
 
 
@@ -31,7 +32,7 @@ import { SignUpComponent } from './Auth/signUp/signup.component';
     headerComponent,
     LoginComponent,
     SignUpComponent
-  ],   
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -39,7 +40,7 @@ import { SignUpComponent } from './Auth/signUp/signup.component';
     FormsModule,
     BrowserAnimationsModule,
     MatFormFieldModule,
-    MatInputModule, 
+    MatInputModule,
     MatCardModule,
     MatButtonModule,
     CommonModule,
@@ -48,10 +49,14 @@ import { SignUpComponent } from './Auth/signUp/signup.component';
     MatProgressSpinnerModule,
     HttpClientModule,
     MatPaginatorModule,
-    
+
 
   ],
-  providers: [
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor, 
+    multi: true
+  }
   ],
   bootstrap: [AppComponent]
 })
