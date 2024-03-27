@@ -15,8 +15,7 @@ mongose.connect("mongodb+srv://shoaibzafar2255:j8PglZRekaLmzvgJ@cluster0.idojyvv
 })
 .catch((es) => { 
     console.log('Connection Failed',es);
-});
-
+})
 app.use("/images" , express.static(path.join("BackEnd/images")));
 
 const { connect } = require('http2');

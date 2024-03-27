@@ -1,9 +1,10 @@
 const express = require ('express');
 const Routers = express.Router();
 const Post = require ('../Models/post');
+const checkAuth = require('../middleware/check-auth');
 const multer = require ('multer');
 const { count } = require('console');
-const checkAuth = require('../middleware/check-auth');
+
 
 const MIME_TYPE_MAP = {
     'image/png' : 'png',
@@ -69,6 +70,14 @@ Routers.put("/:_id",checkAuth, multer({storage:storage}).single("image") , (req,
    Post.updateOne({_id: req.params._id, creator : req.userData.userId}, post).then(result=>{
     console.log(result);
     res.status(200).json({message: 'Update Successful!'});
+
+    // if (result.nModified > 0) {
+    //     res.status(200).json({message: 'Update Successful!'});
+
+    // }else{
+    //     res.status(401).json({message: 'Not Authorized'});
+
+    // }
    }); 
 });
 
@@ -104,7 +113,8 @@ Routers.get("/:_id", (req,res,next) =>{
 })
 Routers.delete("/:_id",checkAuth, async(req,res,next) => {
     console.log(req.params._id);
-    await Post.deleteOne ({_id: req.params._id}).then(createdPosts =>{
+    await Post.deleteOne ({_id: req.params._id, creator : req.userData.userId}).then(createdPosts =>{
+        console.log(createdPosts)
         if(createdPosts.deletedCount > 0){
             res.status(200).json({message:'Post deleted!!'});
         }else{

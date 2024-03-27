@@ -25,15 +25,14 @@ export class Authservice{
         return this.authStatusListener.asObservable();
     }
     
-    createUser(email : string, password : string){
+    createUser(email : any, password : string){
         const authData : AuthData = {email:email, password:password};
         
-        this.http.post<{token: string}>('http://localhost:3000/api/user/signup', authData).subscribe(response => {
+        this.http.post('http://localhost:3000/api/user/signup', authData).subscribe(response => {
             console.log(response);
-            
         });
     };
-    logInUser(email:string, password:string){
+    logInUser(email:any, password:string){
         const authData : AuthData = {email:email, password:password};
         console.log(authData);
         
@@ -71,20 +70,35 @@ export class Authservice{
 
     // }
 
+    // autoAuthUser() {
+    //     const authInformation = this.getAuthData();
+    //     if (authInformation && authInformation.expirationDate) {
+    //         const now = new Date();
+    //         const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+    //         if (expiresIn > 0) {
+    //             this.token = authInformation.token;
+    //             this.IsAuthenticated = true;
+    //             this.setAuthTimer(expiresIn/1000);
+    //             this.authStatusListener.next(true);
+    //         };
+    //     };
+    // };
+
     autoAuthUser() {
         const authInformation = this.getAuthData();
-        if (authInformation && authInformation.expirationDate) {
-            const now = new Date();
-            const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
-            if (expiresIn > 0) {
-                this.token = authInformation.token;
-                this.IsAuthenticated = true;
-                this.setAuthTimer(expiresIn/1000);
-                this.authStatusListener.next(true);
-            }
+        if (!authInformation) {
+            return;
         }
-    }
+        const now = new Date();
+        const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+        if (expiresIn > 0) {
+            this.token = authInformation.token;
+            this.IsAuthenticated = true;
+            this.setAuthTimer(expiresIn/1000);
+            this.authStatusListener.next(true);
+        };
 
+    };
 
    logOut(){
     this.token = null;
@@ -104,8 +118,13 @@ export class Authservice{
    }
 
    private saveAuthData (token : string, expirationDate : Date){
-    localStorage.setItem('token', token);
-    localStorage.setItem('expiration', expirationDate.toISOString());
+    try {
+        localStorage.setItem('token', token);
+        localStorage.setItem('expiration', expirationDate.toISOString());
+    } catch (error:any) {
+        console.error('Error setting localStorage items:', error.message);
+    }
+
    };
 
    private clearAuthData(){
